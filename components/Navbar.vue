@@ -7,9 +7,7 @@
     </div>
 
     <div id="navbarBasicExample" class="navbar-menu">
-      <div class="navbar-start">
-      </div>
-
+      <div class="navbar-start"></div>
     </div>
   </nav>
 </template>

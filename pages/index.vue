@@ -35,12 +35,12 @@ export default Vue.extend({})
 
 <style>
 .body {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
+  height: 100%;
 }
 
 #wrapper {
-  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 </style>
