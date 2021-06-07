@@ -49,6 +49,6 @@
     "stylelint": "^13.7.2",
     "stylelint-config-prettier": "^8.0.2",
     "stylelint-config-standard": "^20.0.0",
-    "vls": "^0.6.4"
+    "vls": "^0.7.4"
   }
 }
