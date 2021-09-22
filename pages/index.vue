@@ -13,10 +13,14 @@
           </p>
 
           <p class="content">
-            I have a BSC in Software Engineering from Universidade do Minho and
-            i'm currently finishing my MSC in distributed systems and parallel
+            I have a BSC in Software Engineering from Universidade do Minho. 
+          </p>
+
+          <p class="content">
+            I'm currently finishing my MSC in distributed systems and parallel
             computing.
           </p>
+
           <p class="content">
             Right now i'm mostly programming in Ruby, Elixir, Rust and
             Typescript.<br />
