@@ -47,7 +47,7 @@
     "lint-staged": "^10.4.0",
     "prettier": "^2.1.2",
     "stylelint": "^13.7.2",
-    "stylelint-config-prettier": "^8.0.2",
+    "stylelint-config-prettier": "^9.0.3",
     "stylelint-config-standard": "^20.0.0",
     "vls": "^0.6.4"
   }
