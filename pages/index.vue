@@ -13,7 +13,7 @@
           </p>
 
           <p class="content">
-            I have a BSC in Software Engineering from Universidade do Minho. 
+            I have a BSC in Software Engineering from Universidade do Minho.
           </p>
 
           <p class="content">
