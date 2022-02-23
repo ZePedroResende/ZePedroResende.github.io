@@ -1,15 +1,15 @@
 @font-face {
-  font-family: "Iosevka Custom Nerd Font";
+  font-family: 'Iosevka Custom Nerd Font';
   font-style: regular;
   font-weight: 400;
   font-display: swap;
-  src: url(~assets/fonts/Iosevka Custom Nerd Font.ttf) format("truetype");
+  src: url(iosevka-custom-nerd-font.ttf) format('truetype');
 }
 
 html {
-  font-family: "Iosevka Custom Nerd Font", sans-serif !important;
+  font-family: 'Iosevka Custom Nerd Font', sans-serif !important;
 }
 
 body {
-  font-family: "Iosevka Custom Nerd Font", sans-serif !important;
+  font-family: 'Iosevka Custom Nerd Font', sans-serif !important;
 }
