@@ -1,1 +1,0 @@
-window.__NUXT__=(function(a){return {staticAssetsBase:"\u002FZePedroResende.github.io\u002F_nuxt\u002Fstatic\u002F1645635164",layout:"default",error:a,serverRendered:true,routePath:"\u002F",config:{_app:{basePath:"\u002FZePedroResende.github.io\u002F",assetsPath:"\u002FZePedroResende.github.io\u002F_nuxt\u002F",cdnURL:a}}}}(null));
