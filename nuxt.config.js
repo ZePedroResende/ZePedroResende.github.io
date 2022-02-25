@@ -5,7 +5,7 @@ export default {
     exclude: [/^\/dynamic-route\//],
   },
   router: {
-    base: '/ZePedroResende.github.io/',
+    base: '/ZePedroResende/',
   },
 
   // Global page headers (https://go.nuxtjs.dev/config-head)

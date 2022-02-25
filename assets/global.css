@@ -3,7 +3,7 @@
   font-style: regular;
   font-weight: 400;
   font-display: swap;
-  src: url(iosevka-custom-nerd-font.ttf) format('truetype');
+  src: url(iosevka-custom-nerd-font.woff2) format('woff2');
 }
 
 html {
