@@ -26,27 +26,27 @@ const dev = process.env.NODE_ENV === 'development';
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
-	preprocess: preprocess(),
-	kit: {
-		adapter: adapter({
-			// default options are shown
-			pages: 'build',
-			assets: 'build',
-			fallback: null,
-			precompress: false
-		}),
+  preprocess: preprocess(),
+  kit: {
+    adapter: adapter({
+      // default options are shown
+      pages: 'build',
+      assets: 'build',
+      fallback: null,
+      precompress: false
+    }),
 
-		prerender: {
-			// This can be false if you're using a fallback (i.e. SPA mode)
-			default: true
-		},
-		paths: {
-			base: dev ? '' : '/ZePedoResende'
-		},
-		// If you are not using a .nojekyll file, change your appDir to something not starting with an underscore.
-		// For example, instead of '_app', use 'app_', 'internal', etc.
-		appDir: 'internal'
-	}
+    prerender: {
+      // This can be false if you're using a fallback (i.e. SPA mode)
+      default: true
+    },
+    paths: {
+      base: dev ? '' : '/ZePedroResende.github.io'
+    },
+    // If you are not using a .nojekyll file, change your appDir to something not starting with an underscore.
+    // For example, instead of '_app', use 'app_', 'internal', etc.
+    appDir: 'internal'
+  }
 };
 
 export default config;
