@@ -19,11 +19,11 @@
 					<p class="content">I have a BSC in Software Engineering from Universidade do Minho.</p>
 
 					<p class="content">
-						I'm currently finishing my MSC in distributed systems and parallel computing.
+						I am currently in the final stages of writing my dissertation to complete my MSc in Distributed Systems and Parallel Computing.
 					</p>
 
 					<p class="content">
-						Right now i'm doing Rust, solidity and cairo related stuff.<br />
+						Right now i'm doing Rust, Elixir, Solidity and Cairo related stuff.<br />
 					</p>
 				</article>
 			</div>
