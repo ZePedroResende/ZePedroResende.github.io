@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-      - uses: actions/checkout@v4
+        uses: actions/checkout@v4
 
       - uses: actions/setup-go@v5
         with:
@@ -26,10 +26,9 @@ jobs:
 
       - uses: DavidAnson/markdownlint-cli2-action@v17
         with:
-          globs: '**/*.md'
+          globs: "**/*.md"
 
       - name: Build and run Golang program
         run: |
           go build -o generate-html main.go
           ./generate-html
-
