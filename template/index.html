@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>zepedroresende.github.io</title>
+    <link rel="stylesheet" href="https://latex.vercel.app/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <style>
+      /* Dark Mode Toggle Button */
+      #dark-mode-switch {
+        position: fixed;
+        top: 1em;
+        right: 1em;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        padding: 0.5em;
+        z-index: 1000; /* Ensure it's above other content */
+      }
+
+      #dark-mode-switch input[type="checkbox"] {
+        display: none;
+      }
+
+      #dark-mode-switch label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+
+      #dark-mode-switch svg {
+        width: 24px;
+        height: 24px;
+        transition: opacity 0.3s;
+      }
+
+      .sun-icon {
+        display: block;
+      }
+
+      .moon-icon {
+        display: none;
+      }
+
+      /* Toggle between sun and moon icons */
+      #dark-mode-switch input:checked ~ .sun-icon {
+        display: none;
+      }
+
+      #dark-mode-switch input:checked ~ .moon-icon {
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body id="top">
+    <!-- Dark Mode Toggle Switch -->
+    <div id="dark-mode-switch">
+      <input type="checkbox" id="toggle-dark-mode" />
+      <label for="toggle-dark-mode">
+        <!-- Sun Icon for Light Mode -->
+        <svg
+          id="sun-icon"
+          class="sun-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+          />
+        </svg>
+        <!-- Moon Icon for Dark Mode -->
+        <svg
+          id="moon-icon"
+          class="moon-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+          />
+        </svg>
+      </label>
+    </div>
+    <header>
+      <h1>Ze Pedro Resende</h1>
+
+      <p class="author">
+        <a href="https://github.com/ZePedroResende">
+          <i class="fa fa-github"></i>
+        </a>
+      </p>
+    </header>
+
+    <div class="abstract">
+      <p>
+        I'm a Software Engineer at
+        <a href="https://subvisual.com">Subvisual</a>. Previously at
+        <a href="https://finiam.com">Finiam</a>.
+      </p>
+      <p>
+        I'm interested in Distributed Systems, Data Exploration, High
+        Performance Computing, Audio.<br />
+      </p>
+
+      <p>I have a BSC in Software Engineering from Universidade do Minho.</p>
+
+      <p>
+        I am currently in the final stages of writing my dissertation to
+        complete my MSc in Distributed Systems and Parallel Computing.
+      </p>
+
+      <p>
+        Right now i'm mostly doing Rust, Elixir and Solidity related stuff.<br />
+      </p>
+    </div>
+    <nav role="navigation" class="toc">
+      <h2>Contents</h2>
+      <ol>
+        {{ range .}}
+        <tr>
+          <li><a href="{{.Path}}">{{.Title}}</a></li>
+        </tr>
+        {{ end}}
+      </ol>
+    </nav>
+    <main>
+      <article>
+        <div class="footnotes"></div>
+      </article>
+    </main>
+
+    <!-- CSS-Only Dark Mode Toggle Script -->
+    <script>
+      document
+        .querySelectorAll("#dark-mode-switch input")
+        .forEach((checkbox) => {
+          checkbox.addEventListener("change", () => {
+            document.body.classList.toggle("latex-dark", checkbox.checked);
+          });
+        });
+    </script>
+  </body>
+</html>

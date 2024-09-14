@@ -1,0 +1,9 @@
+#!/usr/bin/env /bin/sh
+#inotifywait -q -m -e close_write bin/*.go |
+#while read -r filename event; do
+#  golangci-lint run --fast
+#done
+
+fswatch -o main.go | while read f; do
+  golangci-lint run --fast
+done
