@@ -2,7 +2,11 @@
 
 ---
 
-## canonical_url: <https://blog.finiam.com/blog/genserver-agent-task>
+title: GenServer, Agent, Task
+
+canonical: <https://blog.finiam.com/blog/genserver-agent-task>
+
+...
 
 <!--toc:start-->
 
@@ -14,23 +18,38 @@
 - [Task](#task)
 <!--toc:end-->
 
-The first thing people tell you about Elixir is the scalability with lightweight threads of execution (called processes) that are isolated and exchange information via messages, the concurrency model with the actor model that allows you to program a concurrent program like a sequential one and the fault tolerance with supervisors which describe how to restart parts of your system when things go wrong.
+The first thing people tell you about Elixir is the scalability with lightweight
+threads of execution (called processes) that are isolated and exchange
+information via messages, the concurrency model with the actor model that allows
+you to program a concurrent program like a sequential one and the fault
+tolerance with supervisors which describe how to restart parts of your system
+when things go wrong.
 
-However, I see a lot of newcomers that don't make use of these features and don't know how, because the concepts are a little different than what they are used to. This blog post is trying to introduce 3 important concepts that can be useful when programming Elixir.
+However, I see a lot of newcomers that don't make use of these features and
+don't know how, because the concepts are a little different than what they are
+used to. This blog post is trying to introduce 3 important concepts that can be
+useful when programming Elixir.
 
 ## Concurrency model
 
-Elixir uses the Erlang virtual machine (BEAM), that uses actors to describe concurrency, in other words, a contained process that communicates with other processes through message passing
+Elixir uses the Erlang virtual machine (BEAM), that uses actors to describe
+concurrency, in other words, a contained process that communicates with other
+processes through message passing
 
 ![Untitled Diagram(5).png](https://draftin.com:443/images/78569?token=nBJWPKsxfWHoSQRILYWnpB7j2A4wXSzn8Bw6QHw3spcr2KANDaqPpgOJH_g2fSxOs1cuFNxYthW1x1kfbOAUUq8)
 
 ## Process send and receive
 
-This communication with message passing is composed of two main functions, `send` and `receive`, and we can send a message based on its Process Identifier (PID).
+This communication with message passing is composed of two main functions,
+`send` and `receive`, and we can send a message based on its Process Identifier
+(PID).
 
-The `send` function does not block the sender process, it puts the message on the receiver process mailbox and continues.
+The `send` function does not block the sender process, it puts the message on
+the receiver process mailbox and continues.
 
-The `receive` block will grab a message from the mailbox and try to pattern match it against the patterns defined in the receive block. If the process mailbox is empty it will block until a new message arrives.
+The `receive` block will grab a message from the mailbox and try to pattern
+match it against the patterns defined in the receive block. If the process
+mailbox is empty it will block until a new message arrives.
 
 Taken from the Elixir documentation:
 
@@ -56,18 +75,28 @@ iex> send pid, :ok
 :ok
 ```
 
-You can notice that the `listen` function processes messages for an infinite duration using recursion. This is possible because of "Tail Call Optimization" (TCO) and it ensures that if the last thing a function does is the invocation of another function (or itself), then there won't be a stack push. Instead, a simple jump will occur.
+You can notice that the `listen` function processes messages for an infinite
+duration using recursion. This is possible because of "Tail Call Optimization"
+(TCO) and it ensures that if the last thing a function does is the invocation of
+another function (or itself), then there won't be a stack push. Instead, a
+simple jump will occur.
 
-We’ve looked at the Elixir abstractions for concurrency but sometimes we need greater control and for that, we turn to the OTP behaviors that Elixir is built on.
+We’ve looked at the Elixir abstractions for concurrency but sometimes we need
+greater control and for that, we turn to the OTP behaviors that Elixir is built
+on.
 
 We're gonna talk about Supervisors, GenServers, Agents, and Tasks.
 
 ## Supervisor
 
-Supervises processes with configuration which determines if/when/how a process that it is supervising is restarted. These should be used, either via explicit or dynamic or task supervisors, to supervise almost all of your processes. You almost always want your worker processes supervised in some way.
+Supervises processes with configuration which determines if/when/how a process
+that it is supervising is restarted. These should be used, either via explicit
+or dynamic or task supervisors, to supervise almost all of your processes. You
+almost always want your worker processes supervised in some way.
 ![Untitled Diagram.png](https://draftin.com:443/images/78597?token=m4RjIQUT9xpMqZUJsaNB6JpeZUiZNyoCy8yqWXfmiKuyKEi-KxdztNbGa7odIupJ_8vOa7I-oilG2D7c5DyP2EE)
 
-Taken from the elixir doc we can see how to set up a supervisor with a child process called stack where the init parameter is a list with the atom `:hello`:
+Taken from the elixir doc we can see how to set up a supervisor with a child
+process called stack where the init parameter is a list with the atom `:hello`:
 
 ```elixir
 children = [
@@ -87,9 +116,13 @@ Supervisor.count_children(PID)
 
 ### GenServer
 
-A generic server. That's it, ok? bye... ok let's expand.
-An OTP server is a module with the GenServer behavior that implements a set of callbacks. At its most basic level, a GenServer is a single process that runs a loop that handles one message per iteration passing along an updated state.
-Use it for anything where you have a need to represent something that has a state at a point of time and can be queried. This could represent a user in a chat, a char in a game, a game map, a shopping cart, etc.
+A generic server. That's it, ok? bye... ok let's expand. An OTP server is a
+module with the GenServer behavior that implements a set of callbacks. At its
+most basic level, a GenServer is a single process that runs a loop that handles
+one message per iteration passing along an updated state. Use it for anything
+where you have a need to represent something that has a state at a point of time
+and can be queried. This could represent a user in a chat, a char in a game, a
+game map, a shopping cart, etc.
 
 The most important functions to know when using GenServer are:
 
@@ -104,14 +137,18 @@ The most important functions to know when using GenServer are:
 
 Let's do a very brief and simple explanation:
 
-- The `start_link` function starts a GenServer.
-  The `init` function initiates the state of the GenServer and starts calls.
+- The `start_link` function starts a GenServer. The `init` function initiates
+  the state of the GenServer and starts calls.
 
-- `call` and `handle_call` are used for synchronous calls to the GenServer, normally where we need a return value from the GenServer.
+- `call` and `handle_call` are used for synchronous calls to the GenServer,
+  normally where we need a return value from the GenServer.
 
-- `cast` and `handle_cast` are used in asynchronous calls to the GenServer, where we don't need a return value.
+- `cast` and `handle_cast` are used in asynchronous calls to the GenServer,
+  where we don't need a return value.
 
-- `handle_info` must be used for all other messages a server may receive that are not sent via `call` or `cast`, including regular messages sent with `send`.
+- `handle_info` must be used for all other messages a server may receive that
+  are not sent via `call` or `cast`, including regular messages sent with
+  `send`.
 
 So let's see a simple example of a queue with a GenServer:
 
@@ -164,15 +201,19 @@ iex(6)> Queue.queue()
 [3, 5]
 ```
 
-Most of the time you will be using this abstraction because it's really powerful for a range of problems.
+Most of the time you will be using this abstraction because it's really powerful
+for a range of problems.
 
 ## Agent
 
-Like the Elixir documentation says "Agents are a simple abstraction around state", its an abstraction around GenServer in which the only function is to retrieve and update its state.
-It's very useful for sharing data between other processes where you can query the data from the Agent or update it from multiple processes with total atomic and secure operations.
-It has a very simple API and easy to use.
-_If you need more than sharing state then you are probably looking for a GenServer and not an Agent_.
-A GenServer is more autonomous over its internal state than an Agent is.
+Like the Elixir documentation says "Agents are a simple abstraction around
+state", its an abstraction around GenServer in which the only function is to
+retrieve and update its state. It's very useful for sharing data between other
+processes where you can query the data from the Agent or update it from multiple
+processes with total atomic and secure operations. It has a very simple API and
+easy to use. _If you need more than sharing state then you are probably looking
+for a GenServer and not an Agent_. A GenServer is more autonomous over its
+internal state than an Agent is.
 
 So let's do a simple Queue with Agent:
 
@@ -214,16 +255,27 @@ iex(6)> Queue.queue()
 [3, 5]
 ```
 
-In a simple case like a queue where we are only storing, updating and pulling state from the process an Agent version will be simpler and have the same behaviour that the GenServer one, but like all abstraction, if you want to deviate from what it gives it's gonna be very difficult to do what you want. You will have to use a GenServer for the complete control of its internal state and the `handle_` callbacks.
+In a simple case like a queue where we are only storing, updating and pulling
+state from the process an Agent version will be simpler and have the same
+behaviour that the GenServer one, but like all abstraction, if you want to
+deviate from what it gives it's gonna be very difficult to do what you want. You
+will have to use a GenServer for the complete control of its internal state and
+the `handle_` callbacks.
 
 ## Task
 
-A process designed to handle a one-off task before shutting down and returning whatever results. Has a special task supervisor which makes it easy to dynamically spawn and monitor tasks.
+A process designed to handle a one-off task before shutting down and returning
+whatever results. Has a special task supervisor which makes it easy to
+dynamically spawn and monitor tasks.
 
-We can make use of the async-await pattern with this kind of process that allows you to write sequential code and running it concurrently. `async` creates a new process, links it and monitors it. Once the task action finishes, a message will be sent to the caller with the result.
-With `await` you can read this message sent by the task.
+We can make use of the async-await pattern with this kind of process that allows
+you to write sequential code and running it concurrently. `async` creates a new
+process, links it and monitors it. Once the task action finishes, a message will
+be sent to the caller with the result. With `await` you can read this message
+sent by the task.
 
-We can also implement cool patterns of batch processing like parallel maps with tasks:
+We can also implement cool patterns of batch processing like parallel maps with
+tasks:
 
 ```elixir
 defmodule Parallel do
@@ -235,9 +287,14 @@ defmodule Parallel do
 end
 ```
 
-Remember Elixir makes a distinction between anonymous functions and named functions, where the former must be invoked with a dot `(.)` between the variable name and parentheses. The capture operator bridges this gap by allowing named functions to be assigned to variables and passed as arguments in the same way we assign, invoke, and pass anonymous functions.
+Remember Elixir makes a distinction between anonymous functions and named
+functions, where the former must be invoked with a dot `(.)` between the
+variable name and parentheses. The capture operator bridges this gap by allowing
+named functions to be assigned to variables and passed as arguments in the same
+way we assign, invoke, and pass anonymous functions.
 
-Good for jobs that can be processed without blocking the current process and taking advantage of the lightweight processes from BEAM.
+Good for jobs that can be processed without blocking the current process and
+taking advantage of the lightweight processes from BEAM.
 
 Some examples in `iex`:
 
@@ -252,6 +309,7 @@ iex(10)> result = Task.await(task)
 false
 ```
 
-I hope you will incorporate these types of tools in your daily Elixir programming and that they will help you out solving cool problems!
+I hope you will incorporate these types of tools in your daily Elixir
+programming and that they will help you out solving cool problems!
 
 Stay safe and be happy! 👋
