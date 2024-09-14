@@ -1,9 +1,8 @@
 name: Deploy to GitHub Pages on Merge
 
 on:
-  push:
-    branches:
-      - main
+  pull_request:
+    types: [opened, synchronize]
 
 jobs:
   build-and-deploy:
@@ -27,22 +26,10 @@ jobs:
 
       - uses: DavidAnson/markdownlint-cli2-action@v17
         with:
-          globs: "**/*.md"
+          globs: '**/*.md'
 
       - name: Build and run Golang program
         run: |
           go build -o generate-html main.go
           ./generate-html
 
-      - name: Setup GitHub Pages
-        uses: actions/setup-pages@v3
-
-      - name: Deploy to GitHub Pages
-        uses: actions/upload-pages-artifact@v2
-
-  deploy:
-    needs: build-and-deploy
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v2
