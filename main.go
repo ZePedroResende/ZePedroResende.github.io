@@ -39,7 +39,11 @@ func generate_posts_html(name string) (*Post, error) {
 
 	content := template.Must(template.ParseFiles(tmp))
 	fmt.Println(content.Name())
-	tmpl.AddParseTree(content.Name(), content.Tree)
+	_, err = tmpl.AddParseTree(content.Name(), content.Tree)
+	if err != nil {
+		log.Printf("Error adding template: %v", err)
+		return nil, err
+	}
 
 	error := tmpl.Execute(f, nil)
 	if error != nil {
