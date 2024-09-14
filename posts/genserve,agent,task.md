@@ -186,7 +186,7 @@ end
 
 If we test it in `iex`:
 
-```
+```elixir
 iex> Queue.start_link([1, 2, 3])
 {:ok, #PID<0.90.0>}
 iex> Queue.dequeue
@@ -240,7 +240,7 @@ end
 
 Let's test it on `iex`:
 
-```
+```elixir
 iex(1)> Queue.start_link([1,2,3])
 {:ok, #PID<0.155.0>}
 iex(2)> Queue.dequeue()
@@ -298,7 +298,7 @@ taking advantage of the lightweight processes from BEAM.
 
 Some examples in `iex`:
 
-```
+```elixir
 iex(9)> task = Task.async(fn -> Integer.is_even(1) end)
 %Task{
   owner: #PID<0.152.0>,
