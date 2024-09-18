@@ -1,14 +1,12 @@
-# Exponential backoff with Elixir
-
 ---
-
 title: Exponential back-off with Elixir
 
 author: Jose Resende
 
 date: 11-04-2023
+---
 
-...
+# Exponential backoff with Elixir
 
 <!--toc:start-->
 
