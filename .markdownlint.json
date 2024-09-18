@@ -1,0 +1,10 @@
+{
+  "MD025": {
+    "level": "disable"
+  },
+  "front-matter": {
+    "start": "---",
+    "end": "---",
+    "required": true
+  }
+}

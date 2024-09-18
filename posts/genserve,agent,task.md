@@ -1,12 +1,10 @@
-# GenServer, Agent, Task
-
 ---
-
 title: GenServer, Agent, Task
 
-canonical: <https://blog.finiam.com/blog/genserver-agent-task>
+canonical: https://blog.finiam.com/blog/genserver-agent-task
+---
 
-...
+# GenServer, Agent, Task
 
 <!--toc:start-->
 
