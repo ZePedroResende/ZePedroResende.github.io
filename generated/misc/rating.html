@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rating Translator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body
+    class="bg-gray-100 flex items-center justify-center min-h-screen font-sans"
+  >
+    <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md space-y-8">
+      <!-- Current Mode -->
+      <div class="text-center">
+        <h1 class="text-2xl font-bold mb-2" id="mode-title">Z ➔ D</h1>
+        <button id="switch-mode" class="text-sm text-blue-600 hover:underline">
+          Switch Mode
+        </button>
+      </div>
+
+      <!-- Inputs -->
+      <div class="space-y-6">
+        <!-- Rating Selector -->
+        <div>
+          <h2 class="text-lg font-semibold mb-2">Select Rating</h2>
+          <div class="grid grid-cols-5 gap-2">
+            <!-- Buttons -->
+            <button
+              class="rating-btn bg-gray-200 hover:bg-gray-300 rounded-lg p-2"
+              data-rating="0.5"
+            >
+              0.5
+            </button>
+            <button
+              class="rating-btn bg-gray-200 hover:bg-gray-300 rounded-lg p-2"
+              data-rating="1.0"
+            >
+              1.0
+            </button>
+            <button
+              class="rating-btn bg-gray-200 hover:bg-gray-300 rounded-lg p-2"
+              data-rating="1.5"
+            >
+              1.5
+            </button>
+            <button
+              class="rating-btn bg-gray-200 hover:bg-gray-300 rounded-lg p-2"
+              data-rating="2.0"
+            >
+              2.0
+            </button>
+            <button
+              class="rating-btn bg-gray-200 hover:bg-gray-300 rounded-lg p-2"
+              data-rating="2.5"
+            >
+              2.5
+            </button>
+            <button
+              class="rating-btn bg-gray-200 hover:bg-gray-300 rounded-lg p-2"
+              data-rating="3.0"
+            >
+              3.0
+            </button>
+            <button
+              class="rating-btn bg-gray-200 hover:bg-gray-300 rounded-lg p-2"
+              data-rating="3.5"
+            >
+              3.5
+            </button>
+            <button
+              class="rating-btn bg-gray-200 hover:bg-gray-300 rounded-lg p-2"
+              data-rating="4.0"
+            >
+              4.0
+            </button>
+            <button
+              class="rating-btn bg-gray-200 hover:bg-gray-300 rounded-lg p-2"
+              data-rating="4.5"
+            >
+              4.5
+            </button>
+            <button
+              class="rating-btn bg-gray-200 hover:bg-gray-300 rounded-lg p-2"
+              data-rating="5.0"
+            >
+              5.0
+            </button>
+          </div>
+        </div>
+
+        <!-- Heart Toggle -->
+        <div>
+          <h2 class="text-lg font-semibold mb-2">Liked?</h2>
+          <label
+            for="heartSwitch"
+            class="inline-flex relative items-center cursor-pointer"
+          >
+            <input type="checkbox" id="heartSwitch" class="sr-only peer" />
+            <div
+              class="w-11 h-6 bg-gray-200 rounded-full peer peer-checked:bg-red-500 after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:after:translate-x-5"
+            ></div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Output -->
+      <div class="bg-gray-50 p-6 rounded-xl shadow-inner space-y-2 text-center">
+        <h2 class="text-lg font-semibold">Result</h2>
+        <p id="input-rating" class="text-gray-600">Input Rating: -</p>
+        <p id="input-heart" class="text-gray-600">Liked: -</p>
+        <p id="predicted-rating" class="text-2xl font-bold text-green-600 mt-4">
+          Predicted Rating: -
+        </p>
+      </div>
+    </div>
+
+    <script>
+      let isZtoD = true;
+      let selectedRating = 0;
+      let heartStatus = false;
+
+      // Linear regression parameters
+      const paramsZtoD = {
+        coef: 0.60238216,
+        intercept: 1.5613279270146978,
+      };
+      const paramsDtoZ = {
+        coef1: 0.4612611, // Rating coef
+        coef2: -0.16775179, // Heart coef
+        intercept: 2.0073560395062744,
+      };
+
+      document
+        .getElementById("switch-mode")
+        .addEventListener("click", function () {
+          isZtoD = !isZtoD;
+          document.getElementById("mode-title").textContent = isZtoD
+            ? "Z ➔ D"
+            : "D ➔ Z";
+          resetResults();
+        });
+
+      const ratingButtons = document.querySelectorAll(".rating-btn");
+      ratingButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          selectedRating = parseFloat(this.dataset.rating);
+          document.getElementById("input-rating").textContent =
+            `Input Rating: ${selectedRating}`;
+          calculatePrediction();
+        });
+      });
+
+      document
+        .getElementById("heartSwitch")
+        .addEventListener("change", function () {
+          heartStatus = this.checked;
+          document.getElementById("input-heart").textContent =
+            `Liked: ${heartStatus ? "Yes" : "No"}`;
+          calculatePrediction();
+        });
+
+      function calculatePrediction() {
+        if (!selectedRating) return;
+
+        let predictedRating = 0;
+        if (isZtoD) {
+          predictedRating =
+            selectedRating * paramsZtoD.coef + paramsZtoD.intercept;
+        } else {
+          console.log("heartStatus", heartStatus);
+          const heartBinary = heartStatus ? 0 : 1;
+          predictedRating =
+            selectedRating * paramsDtoZ.coef1 +
+            heartBinary * paramsDtoZ.coef2 +
+            paramsDtoZ.intercept;
+        }
+
+        document.getElementById("predicted-rating").textContent =
+          `Predicted Rating: ${predictedRating.toFixed(2)}`;
+      }
+
+      function resetResults() {
+        document.getElementById("input-rating").textContent = `Input Rating: -`;
+        document.getElementById("input-heart").textContent = `Liked: -`;
+        document.getElementById("predicted-rating").textContent =
+          `Predicted Rating: -`;
+        selectedRating = 0;
+        heartStatus = false;
+        document.getElementById("heartSwitch").checked = false;
+      }
+    </script>
+  </body>
+</html>
